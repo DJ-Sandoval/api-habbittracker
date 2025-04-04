@@ -9,24 +9,31 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  spring:
-    mail:
-      host: ${EMAIL_HOST:smtp.gmail.com}
-      port: ${EMAIL_PORT:587}
-      username: ${EMAIL_USERNAME:sandovaljosearmando69@gmail.com}
-      password: ${EMAIL_PASSWORD:crkl ksha bwej cusx}
+
+  mail:
+    host: ${EMAIL_HOST:smtp.gmail.com}
+    port: ${EMAIL_PORT:587}
+    username: ${EMAIL_USERNAME:sandovaljosearmando69@gmail.com}
+    password: ${EMAIL_PASSWORD:crkl ksha bwej cusx}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
 
   jpa:
-    show-sql: true # Desactivado en producción
+    show-sql: true
     hibernate:
-      ddl-auto: update # Mejor que update en producción
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
         jdbc:
           time_zone: UTC
-        # Optimización para producción:
         generate_statistics: false
         batch_size: 30
         order_inserts: true
@@ -34,20 +41,18 @@ spring:
 
   sql:
     init:
-      mode: never # Desactivar inicialización automática
+      mode: never
 
   profiles:
     active: prod
 
-# Configuración de seguridad
 security:
   jwt:
     key:
-      private: ${JWT_PRIVATE_KEY:MIICWwIBAAKBgQCtYo32glu50D5XU3e7jk5RW3OvmmSIA4RxvS2N7acGixkvRkkn2yIGQXGhMmWzU6dT4gKEdsdJugP7iv5ornIs+VNLzunXLGu+qTHeG5BQJneugeTdSNZsu4cf7j0XrHo0mDONExkvKiXsG32XqqZ/8QJx9WZA3U+QV4JHrHd82wIDAQABAn8ArWHglKHHGAkmTi0pjmS/7JuHFBNQdLMPvq1u4H7Gh8SRarTecvyvCZJoDspW6Py+VyOrYMtmflOFqAVWY1gO00QrvPO93iuy5dQCQGZ64qmDjWaozOdnf73C2ZFaWcw052ReKRvPvoVoQYrhTN6ALcL5/Pw1J/oQ/Cf5XXB5AkEA4XIV80lGISHEB8vMAe02bMN+g04k8RpzloqS78ILcW7NfP3aC0Yiu4eN52epFkUNnwv1OG5VSxTs36ahUDCe3wJBAMTiNLwlvyG46Rp9/bDn0JVN+RRghMeHkf+59apHIRR8s4HwJY3aMhl3l0DzFtSUZg7OvMbFx2MBrT7mIPJwbYUCQQC6kguQVuduq97rBMFEJuePgwnD6Hux/E4EG5IWUOPfb+8mrX4xLk24HCpXgvXvtB3drae2k7iKdjrBq8h78IDJAkAfUwom4S6Os/fKcj85tTg3eQdnGZAmmsg80p5mcBiwRMLeqpGfBxcvfBqBh+ua+N1f/76DNZZqhyrENiMJz59tAkEAkbjouc73fd5LPaOH/4cAyAHTIfKaOIoq5l97a1ttm9sec5hb7AylfG/Z8sluHWNtMCf01LR6t+NmHtVsACorbg==}
+      private: ${JWT_PRIVATE_KEY}
     user:
       generator: AUTH0JWT-BACKEND
 
-# Configuración de Actuator (monitoreo)
 management:
   endpoints:
     web:
@@ -63,7 +68,6 @@ management:
       env:
         enabled: true
 
-# Información de la aplicación
 info:
   app:
     name: api-habbittracker
