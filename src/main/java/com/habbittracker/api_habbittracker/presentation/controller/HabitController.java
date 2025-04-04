@@ -26,7 +26,6 @@ public class HabitController {
 
     @PostMapping
     @io.swagger.v3.oas.annotations.Operation(summary = "Crear un hábito", description = "Permite al usuario crear un nuevo hábito.")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('DEVELOPER') or hasRole('INVITED')")
     public ResponseEntity<HabitResponseDTO> createHabit(
             @Valid @RequestBody HabitRequestDTO habitRequest,
             @AuthenticationPrincipal UserEntity user) {
