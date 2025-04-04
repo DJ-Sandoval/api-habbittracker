@@ -10,6 +10,6 @@ import java.util.List;
 public interface HabitRepository extends JpaRepository<HabitEntity, Long> {
     List<HabitEntity> findByUser(UserEntity user);
 
-    @Query("SELECT h FROM Habit h WHERE h.reminderTime = :time AND h.active = true")
+    @Query("SELECT h FROM HabitEntity h WHERE h.reminderTime = :time AND h.active = true")
     List<HabitEntity> findHabitsByReminderTime(@Param("time") LocalTime time);
 }

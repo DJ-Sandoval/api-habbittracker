@@ -17,7 +17,7 @@ public interface HabitCompletionRepository extends JpaRepository<HabitCompletion
     List<HabitCompletionEntity> findByHabitAndCompletionDateBetween(
             HabitEntity habit, LocalDate startDate, LocalDate endDate);
 
-    @Query("SELECT hc FROM HabitCompletion hc WHERE hc.habit = :habit ORDER BY hc.completionDate DESC")
+    @Query("SELECT hc FROM HabitCompletionEntity hc WHERE hc.habit = :habit ORDER BY hc.completionDate DESC")
     List<HabitCompletionEntity> findLatestCompletions(@Param("habit") HabitEntity habit);
     void deleteByHabitAndCompletionDate(HabitEntity habit, LocalDate completionDate);
 }
