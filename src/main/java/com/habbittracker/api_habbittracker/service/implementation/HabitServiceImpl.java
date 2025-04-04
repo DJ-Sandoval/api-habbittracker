@@ -11,7 +11,7 @@ import com.habbittracker.api_habbittracker.service.exception.ResourceNotFoundExc
 import com.habbittracker.api_habbittracker.service.exception.UnauthorizedAccessException;
 import com.habbittracker.api_habbittracker.service.interfaces.IHabitService;
 import com.habbittracker.api_habbittracker.service.interfaces.INotificationService;
-import com.habbittracker.api_habbittracker.util.StreakCalculator;
+import com.habbittracker.api_habbittracker.util.components.StreakCalculator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

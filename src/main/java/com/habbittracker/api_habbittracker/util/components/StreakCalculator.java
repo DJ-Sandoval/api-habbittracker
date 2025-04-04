@@ -1,10 +1,12 @@
-package com.habbittracker.api_habbittracker.util;
+package com.habbittracker.api_habbittracker.util.components;
 
 import com.habbittracker.api_habbittracker.persistence.entities.HabitCompletionEntity;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
 public class StreakCalculator {
     public static int calculateCurrentStreak(List<HabitCompletionEntity> completions) {
         if (completions.isEmpty()) {
