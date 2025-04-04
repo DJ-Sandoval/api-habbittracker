@@ -74,9 +74,13 @@ public class NotificationServiceImpl implements INotificationService {
         ScheduledFuture<?> scheduledTask = taskScheduler.scheduleAtFixedRate(
                 task,
                 Date.from(reminderDateTime.atZone(zoneId).toInstant()),
-                24 * 60 * 60 * 1000); // Repetir cada 24 horas
+                60 * 1000);
+                //24 * 60 * 60 * 1000); // Repetir cada 24 horas
 
         scheduledTasks.put(habit.getId(), scheduledTask);
     }
+
+
+
 
 }

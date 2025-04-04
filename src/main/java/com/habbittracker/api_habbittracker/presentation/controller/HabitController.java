@@ -1,4 +1,6 @@
 package com.habbittracker.api_habbittracker.presentation.controller;
+import com.habbittracker.api_habbittracker.persistence.entities.HabitEntity;
+import com.habbittracker.api_habbittracker.service.implementation.NotificationServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.habbittracker.api_habbittracker.persistence.entities.UserEntity;
 import com.habbittracker.api_habbittracker.presentation.dto.CompletionRequestDTO;
@@ -24,6 +26,7 @@ import java.util.List;
 @Tag(name = "Hábitos", description = "Endpoints para la gestión de hábitos")
 public class HabitController {
     private final IHabitService habitService;
+    private final NotificationServiceImpl notificationService;
 
     @PostMapping("/create")
     @io.swagger.v3.oas.annotations.Operation(summary = "Crear un hábito", description = "Permite al usuario crear un nuevo hábito.")
@@ -115,4 +118,16 @@ public class HabitController {
         habitService.removeCompletion(id, completionRequest.getCompletionDate(), user);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/test-email")
+    public ResponseEntity<String> testEmail() {
+        HabitEntity habit = new HabitEntity();
+        habit.setName("Prueba de correo");
+        habit.setUser(new UserEntity());
+        habit.getUser().setEmail("devsandoval2003@gmail.com"); // Pon un correo real
+
+        notificationService.sendHabitReminder(habit);
+        return ResponseEntity.ok("Correo enviado (revisa la consola para más detalles).");
+    }
+
 }
