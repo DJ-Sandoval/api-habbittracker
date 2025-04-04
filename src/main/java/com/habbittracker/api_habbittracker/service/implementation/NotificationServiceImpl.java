@@ -61,7 +61,7 @@ public class NotificationServiceImpl implements INotificationService {
         message.setSubject("Recordatorio de hábito: " + habit.getName());
         message.setText(String.format(
                 "Hola %s,\n\nNo olvides completar tu hábito '%s' hoy.\n\n¡Tú puedes!",
-                habit.getUser().getUserEmail(),
+                habit.getUser().getEmail(),
                 habit.getName()));
 
         mailSender.send(message);

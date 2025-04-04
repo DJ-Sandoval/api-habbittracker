@@ -21,7 +21,6 @@ public class UserEntity {
     private String username;
     private String password;
     private String email;
-    private String userEmail;
 
     @Column(name = "is_enable")
     private boolean isEnabled;
