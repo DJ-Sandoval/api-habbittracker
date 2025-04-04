@@ -64,7 +64,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         String username = createRoleRequest.username();
         String password = createRoleRequest.password();
         String email = createRoleRequest.email();
-        String userEmail = createRoleRequest.userEmail();
         List<String> rolesRequest = createRoleRequest.roleRequest().roleListName();
 
         Set<RoleEntity> roleEntityList = roleRepository.findRoleEntitiesByRoleEnumIn(rolesRequest).stream().collect(Collectors.toSet());
@@ -73,7 +72,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new IllegalArgumentException("The roles specified does not exist.");
         }
 
-        UserEntity userEntity = UserEntity.builder().username(username).password(passwordEncoder.encode(password)).email(email).userEmail(userEmail).roles(roleEntityList).isEnabled(true).accountNoLocked(true).accountNoExpired(true).credentialNoExpired(true).build();
+        UserEntity userEntity = UserEntity.builder().username(username).password(passwordEncoder.encode(password)).email(email).roles(roleEntityList).isEnabled(true).accountNoLocked(true).accountNoExpired(true).credentialNoExpired(true).build();
 
         UserEntity userSaved = userRepository.save(userEntity);
 
