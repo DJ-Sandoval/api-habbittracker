@@ -11,10 +11,10 @@ spring:
       max-lifetime: 1800000
   spring:
     mail:
-      host: smtp.gmail.com
-      port: 587
-      username: sandovaljosearmando69@gmail.com
-      password: crkl ksha bwej cusx
+      host: ${EMAIL_HOST:smtp.gmail.com}
+      port: ${EMAIL_PORT:587}
+      username: ${EMAIL_USERNAME:sandovaljosearmando69@gmail.com}
+      password: ${EMAIL_PASSWORD:crkl ksha bwej cusx}
 
   jpa:
     show-sql: true # Desactivado en producción
