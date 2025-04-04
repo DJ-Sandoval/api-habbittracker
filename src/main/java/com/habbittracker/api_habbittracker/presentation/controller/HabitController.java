@@ -7,6 +7,7 @@ import com.habbittracker.api_habbittracker.presentation.dto.HabitResponseDTO;
 import com.habbittracker.api_habbittracker.service.interfaces.IHabitService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,11 +25,16 @@ import java.util.List;
 public class HabitController {
     private final IHabitService habitService;
 
-    @PostMapping
+    @PostMapping("/create")
     @io.swagger.v3.oas.annotations.Operation(summary = "Crear un hábito", description = "Permite al usuario crear un nuevo hábito.")
     public ResponseEntity<HabitResponseDTO> createHabit(
             @Valid @RequestBody HabitRequestDTO habitRequest,
             @AuthenticationPrincipal UserEntity user) {
+
+        if (user == null) {
+            // Puedes devolver un error si el usuario no está autenticado
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         HabitResponseDTO response = habitService.createHabit(habitRequest, user);
 

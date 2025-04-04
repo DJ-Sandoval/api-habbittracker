@@ -45,7 +45,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers("/actuator/**").permitAll(); // Permitir acceso público a Actuator
                     http.requestMatchers(HttpMethod.GET, "/api/habits/list").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/api/habits/**").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/api/habits/create").permitAll();
 
                     // EndPoints Privados
                     http.requestMatchers(HttpMethod.GET, "/method/get").hasAuthority("READ");

@@ -5,6 +5,7 @@ import com.habbittracker.api_habbittracker.persistence.entities.HabitEntity;
 import com.habbittracker.api_habbittracker.persistence.entities.UserEntity;
 import com.habbittracker.api_habbittracker.persistence.repository.HabitCompletionRepository;
 import com.habbittracker.api_habbittracker.persistence.repository.HabitRepository;
+import com.habbittracker.api_habbittracker.persistence.repository.UserRepository;
 import com.habbittracker.api_habbittracker.presentation.dto.HabitRequestDTO;
 import com.habbittracker.api_habbittracker.presentation.dto.HabitResponseDTO;
 import com.habbittracker.api_habbittracker.service.exception.ResourceNotFoundException;
@@ -27,16 +28,21 @@ public class HabitServiceImpl implements IHabitService {
     private final HabitCompletionRepository completionRepository;
     private final INotificationService notificationService;
     private final StreakCalculator streakCalculator;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public HabitResponseDTO createHabit(HabitRequestDTO habitRequest, UserEntity user) {
+        // Si prefieres obtener el usuario por ID (en caso de que el DTO tenga el userId)
+        UserEntity userFromDb = userRepository.findById(habitRequest.getUserId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         HabitEntity habit = new HabitEntity();
         habit.setName(habitRequest.getName());
         habit.setDescription(habitRequest.getDescription());
         habit.setReminderTime(habitRequest.getReminderTime());
         habit.setTargetDaysPerWeek(habitRequest.getTargetDaysPerWeek());
-        habit.setUser(user);
+        habit.setUser(userFromDb);
 
         HabitEntity savedHabit = habitRepository.save(habit);
 

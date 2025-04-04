@@ -21,4 +21,5 @@ public class HabitRequestDTO {
     @Min(value = 1, message = "El objetivo mínimo es 1 día por semana")
     @Max(value = 7, message = "El objetivo máximo es 7 días por semana")
     private int targetDaysPerWeek;
+    private Long userId;
 }
