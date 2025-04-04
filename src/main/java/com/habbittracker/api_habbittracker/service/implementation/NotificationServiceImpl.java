@@ -9,6 +9,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -24,20 +25,7 @@ public class NotificationServiceImpl implements INotificationService {
     private final TaskScheduler taskScheduler;
     private final Map<Long, ScheduledFuture<?>> scheduledTasks = new HashMap<>();
 
-    @Override
-    public void scheduleHabitReminder(HabitEntity habit) {
-        if (!habit.isActive()) return;
-        ZoneId zoneId = ZoneId.systemDefault(); // Definimos la sona horaria
-        LocalTime reminderTime = habit.getReminderTime();
-        Runnable task = () -> sendHabitReminder(habit);
-        ScheduledFuture<?> scheduledTask = taskScheduler.scheduleAtFixedRate(
-                task,
-                Date.from(reminderTime.atDate(LocalDate.now())
-                        .atZone(zoneId)
-                        .toInstant()),
-                24 * 60 * 60 * 1000); // Repetir cada 24 horas
-        scheduledTasks.put(habit.getId(), scheduledTask);
-    }
+
 
     @Override
     public void rescheduleHabitReminder(HabitEntity habit) {
@@ -66,4 +54,29 @@ public class NotificationServiceImpl implements INotificationService {
 
         mailSender.send(message);
     }
+
+    @Override
+    public void scheduleHabitReminder(HabitEntity habit) {
+        if (!habit.isActive()) return;
+
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime reminderDateTime = habit.getReminderTime().atDate(LocalDate.now());
+
+        // Si la hora de recordatorio ya pasó hoy, programa para mañana
+        if (reminderDateTime.isBefore(now)) {
+            reminderDateTime = reminderDateTime.plusDays(1);
+        }
+
+        Runnable task = () -> sendHabitReminder(habit);
+
+        // Programar primera ejecución en la fecha/hora exacta
+        ScheduledFuture<?> scheduledTask = taskScheduler.scheduleAtFixedRate(
+                task,
+                Date.from(reminderDateTime.atZone(zoneId).toInstant()),
+                24 * 60 * 60 * 1000); // Repetir cada 24 horas
+
+        scheduledTasks.put(habit.getId(), scheduledTask);
+    }
+
 }
