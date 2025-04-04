@@ -31,11 +31,6 @@ public class HabitController {
             @Valid @RequestBody HabitRequestDTO habitRequest,
             @AuthenticationPrincipal UserEntity user) {
 
-        if (user == null) {
-            // Puedes devolver un error si el usuario no está autenticado
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         HabitResponseDTO response = habitService.createHabit(habitRequest, user);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
